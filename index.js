@@ -73,6 +73,16 @@ function tileSwap(firstTile, secondTile) {
   secondTile.placeTile();
 }
 
+function addTouchListener() {
+  gameboard.addEventListener("touchend", (e) => {
+    if (e.target.classList.contains("draggable")) {
+      tileSwap(tilesArray[0], tilesArray[e.target.dataset.id]);
+
+      setDragableTiles();
+    }
+  });
+}
+
 function addDraggingListeners() {
   let draggingTileIndex;
   let dragoverTileIndex;
@@ -177,22 +187,25 @@ function slider() {
 }
 
 function viewPortCheck() {
-  if (window.matchMedia("(max-width: 500px)").matches) {
-    boardSizeHeight = 270;
-    boardSizeWidth = (boardSizeHeight * 4) / 3;
-    return;
-  }
-  if (
-    window.matchMedia("(min-width: 500px)").matches &&
-    window.matchMedia("(max-height: 500px)").matches
-  ) {
-    boardSizeHeight = 270;
-    boardSizeWidth = (boardSizeHeight * 4) / 3;
-    return;
-  }
+  const maxWidth500 = window.matchMedia("(max-width: 500px)");
+  const minWidth500 = window.matchMedia("(min-width: 500px)");
+  const maxHeight500 = window.matchMedia("(max-height: 500px)");
 
-  boardSizeHeight = 600;
-  boardSizeWidth = (boardSizeHeight * 4) / 3;
+  function changeSize() {
+    if (maxWidth500.matches) {
+      boardSizeHeight = 270;
+      boardSizeWidth = (boardSizeHeight * 4) / 3;
+      return;
+    }
+    if (minWidth500.matches && maxHeight500.matches) {
+      boardSizeHeight = 270;
+      boardSizeWidth = (boardSizeHeight * 4) / 3;
+      return;
+    }
+    boardSizeHeight = 600;
+    boardSizeWidth = (boardSizeHeight * 4) / 3;
+  }
+  changeSize();
 }
 
 // Run the functions
@@ -208,5 +221,6 @@ function generateGameboard() {
 generateGameboard();
 
 addDraggingListeners();
+addTouchListener();
 
 slider();
