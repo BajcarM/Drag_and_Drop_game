@@ -2,10 +2,11 @@ const gameboard = document.querySelector(".gameboard");
 const tiles = document.querySelectorAll(".tile");
 
 let tilesArray = [];
-let draggingTileIndex;
-let dragoverTileIndex;
-let rowsCount = 3;
-let colsCount = 3;
+
+let rowsCount = 4;
+let colsCount = 6;
+let boardSizeWidth = 900;
+let boardSizeHeight = 600;
 
 class Tile {
   constructor(row, col, id) {
@@ -24,7 +25,17 @@ class Tile {
 function addTilesToDOM() {
   let displayedTiles = tilesArray.map((tile) => {
     tile = `
-    <div class="tile" data-id="${tile.id}" draggable="false"></div>
+    <div class="tile" data-id="${tile.id}" draggable="true" style="
+    grid-area: ${tile.curRow} / ${tile.curCol} / ${tile.curRow} / ${
+      tile.curCol
+    };
+    height: ${boardSizeHeight / rowsCount}px; width: ${
+      boardSizeWidth / colsCount
+    }px; background-size: auto ${boardSizeWidth}px ;
+    background-position: ${
+      -(boardSizeWidth / colsCount) * (tile.curCol - 1)
+    }px ${-(boardSizeHeight / rowsCount) * (tile.curRow - 1)}px;
+    "></div>
     `;
 
     return tile;
@@ -45,23 +56,33 @@ function tileSwap(firstTile, secondTile) {
   secondTile.placeTile();
 }
 
-gameboard.addEventListener("dragstart", (e) => {
-  draggingTileIndex = e.target.dataset.id;
-});
+function addDraggingListeners() {
+  let draggingTileIndex;
+  let dragoverTileIndex;
 
-gameboard.addEventListener("dragover", (e) => {
-  if (e.target.classList.contains("slider-tile")) {
-    dragoverTileIndex = e.target.dataset.id;
-  } else {
-    dragoverTileIndex = draggingTileIndex;
-  }
-});
+  gameboard.addEventListener("dragstart", (e) => {
+    if (e.target.classList.contains("draggable"))
+      draggingTileIndex = e.target.dataset.id;
+  });
 
-gameboard.addEventListener("dragend", (e) => {
-  tileSwap(tilesArray[dragoverTileIndex], tilesArray[draggingTileIndex]);
-});
+  gameboard.addEventListener("dragover", (e) => {
+    if (e.target.classList.contains("slider-tile")) {
+      dragoverTileIndex = e.target.dataset.id;
+    } else {
+      dragoverTileIndex = draggingTileIndex;
+    }
+  });
 
-function setDragableTiles() {
+  gameboard.addEventListener("dragend", (e) => {
+    if (e.target.classList.contains("draggable")) {
+      tileSwap(tilesArray[dragoverTileIndex], tilesArray[draggingTileIndex]);
+
+      setDragableTiles();
+    }
+  });
+}
+
+function findPossibleMoves() {
   const possibleMoves = [
     [-1, 0],
     [0, +1],
@@ -84,23 +105,50 @@ function setDragableTiles() {
     }
     return acc;
   }, []);
+  return draggableTilesId;
+}
 
+function setDragableTiles() {
   document.querySelectorAll(".tile").forEach((tile) => {
-    tile.setAttribute("draggable", "false");
+    tile.classList.remove("draggable");
   });
 
-  draggableTilesId.forEach((id) => {
-    document
-      .querySelector(`[data-id="${id}"]`)
-      .setAttribute("draggable", "true");
+  const possibleMoves = findPossibleMoves();
+  possibleMoves.forEach((id) => {
+    let tile = document.querySelector(`[data-id="${id}"]`);
+    tile.classList.add("draggable");
   });
 }
 
-tilesArray.push(new Tile(1, 1, 0));
-tilesArray.push(new Tile(1, 2, 1));
+function randomShuffle() {
+  for (k = 0; k < rowsCount * colsCount * rowsCount * colsCount; k++) {
+    const possibleMoves = findPossibleMoves();
+    const randomMoveIndex =
+      possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
+
+    console.log("i is " + k);
+    console.log(possibleMoves);
+    console.log(randomMoveIndex);
+    tileSwap(tilesArray[randomMoveIndex], tilesArray[0]);
+  }
+}
+
+// Running the code
+
+let id = 0;
+for (i = 0; i < rowsCount; i++) {
+  for (j = 0; j < colsCount; j++) {
+    tilesArray.push(new Tile(i + 1, j + 1, id));
+    id++;
+  }
+}
 
 addTilesToDOM();
 
 document.querySelector(`[data-id="0"]`).classList.add("slider-tile");
+
+addDraggingListeners();
+
+randomShuffle(rowsCount, colsCount);
 
 setDragableTiles();

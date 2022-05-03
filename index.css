@@ -4,17 +4,29 @@ body {
   box-sizing: border-box;
 }
 
+.gameboard-container {
+  display: grid;
+  place-items: center;
+}
+
 .gameboard {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  place-items: center;
 }
 
 .tile {
-  height: 200px;
-  width: 200px;
   background-color: blue;
+  display: block;
+  background-image: url(./images/vecteezy_garage-scene-with-children-fixing-a-car-together_6034397_309/vecteezy_garage-scene-with-children-fixing-a-car-together_6034397.jpg);
+  border: 1px rgb(190, 190, 190) solid;
 }
 
-.slider-tile{
-    background-color: red;
+.slider-tile {
+  background-color: rgb(53, 53, 53);
+  background-image: none;
+}
+
+.draggable {
+  background-color: blueviolet;
 }
