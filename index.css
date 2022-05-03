@@ -1,12 +1,22 @@
 body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   margin: 0px;
   padding: 0px;
   box-sizing: border-box;
 }
 
+.game-section {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  place-items: center;
+}
+
 .gameboard-container {
   display: grid;
   place-items: center;
+  grid-column: span 2;
 }
 
 .gameboard {
@@ -19,14 +29,76 @@ body {
   background-color: blue;
   display: block;
   background-image: url(./images/vecteezy_garage-scene-with-children-fixing-a-car-together_6034397_309/vecteezy_garage-scene-with-children-fixing-a-car-together_6034397.jpg);
-  border: 1px rgb(190, 190, 190) solid;
+  border: 1px rgb(190, 190, 190) outset;
+  box-sizing: border-box;
 }
 
 .slider-tile {
-  background-color: rgb(53, 53, 53);
+  background-color: rgb(0, 0, 0);
   background-image: none;
 }
 
-.draggable {
-  background-color: blueviolet;
+.controls-container {
+  display: grid;
+  place-items: center;
+  gap: 30px;
+  width: 300px;
+  margin: 20px auto;
+}
+
+.gameboard-slider-container {
+  display: grid;
+  grid-template-rows: repeat(2, 1fr);
+}
+
+.value-container {
+  grid-row: 1;
+  position: relative;
+  height: 2rem;
+}
+
+.value {
+  position: absolute;
+  font-size: 1.5rem;
+  /* color: white;
+  background-color: rgb(0, 123, 255); */
+  padding: 5px;
+  border-radius: 50%;
+  text-align: center;
+}
+
+.slider-size {
+  grid-row: 2;
+  width: 200px;
+  padding: 10px;
+}
+
+.shuffle-container {
+  padding: 20px;
+}
+
+.btn-shuffle {
+  background-color: white;
+  border: solid 5px red;
+  border-radius: 20px;
+  padding: 10px;
+  font-weight: bold;
+}
+
+.btn-shuffle:active {
+  background-color: red;
+  color: white;
+}
+
+@media (orientation: portrait) {
+  .game-section {
+    grid-template-rows: repeat(3, 1fr);
+  }
+  .gameboard-container {
+    grid-column: span 3;
+    grid-row: span 2;
+  }
+  .controls-container {
+    grid-column: span 3;
+  }
 }
