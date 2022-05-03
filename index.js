@@ -139,7 +139,7 @@ function setDragableTiles() {
 
 function randomShuffle() {
   const tilesCountSqr = rowsCount * colsCount * rowsCount * colsCount;
-  for (k = 0; k < tilesCountSqr; k++) {
+  for (let k = 0; k < tilesCountSqr; k++) {
     setTimeout(() => {
       const possibleMoves = findPossibleMoves();
       const randomMoveIndex =
@@ -147,7 +147,7 @@ function randomShuffle() {
 
       tileSwap(tilesArray[randomMoveIndex], tilesArray[0]);
       setDragableTiles();
-    }, k * (2000 / tilesCountSqr));
+    }, k * (3000 / tilesCountSqr));
   }
 }
 
@@ -175,6 +175,29 @@ function slider() {
     generateGameboard();
   });
 }
+
+function viewPortCheck() {
+  if (window.matchMedia("(max-width: 500px)").matches) {
+    boardSizeHeight = 270;
+    boardSizeWidth = (boardSizeHeight * 4) / 3;
+    return;
+  }
+  if (
+    window.matchMedia("(min-width: 500px)").matches &&
+    window.matchMedia("(max-height: 500px)").matches
+  ) {
+    boardSizeHeight = 270;
+    boardSizeWidth = (boardSizeHeight * 4) / 3;
+    return;
+  }
+
+  boardSizeHeight = 600;
+  boardSizeWidth = (boardSizeHeight * 4) / 3;
+}
+
+// Run the functions
+
+viewPortCheck();
 
 function generateGameboard() {
   generateTiles();

@@ -4,13 +4,15 @@ body {
   margin: 0px;
   padding: 0px;
   box-sizing: border-box;
+  /* display: grid;
+  place-items: center; */
 }
 
 .game-section {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
   place-items: center;
+  height: 100vh;
 }
 
 .gameboard-container {
@@ -42,7 +44,7 @@ body {
   display: grid;
   place-items: center;
   gap: 30px;
-  width: 300px;
+  width: 200px;
   margin: 20px auto;
 }
 
@@ -69,12 +71,12 @@ body {
 
 .slider-size {
   grid-row: 2;
-  width: 200px;
+  width: 120px;
   padding: 10px;
 }
 
 .shuffle-container {
-  padding: 20px;
+  padding-top: 20px;
 }
 
 .btn-shuffle {
