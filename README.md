@@ -8,4 +8,4 @@ Shuffle uses sequence of many random moves so every time image CAN be reconstruc
 Try it!!!
 https://bajcarm.github.io/Drag_and_Drop_game/
 
-![image](https://user-images.githubusercontent.com/102542768/168008691-48219e12-451c-4d2b-b5c1-a5299239dc48.png)
+![image](https://user-images.githubusercontent.com/102542768/168490748-89593319-5e04-40d7-83de-2bc87e032438.png)
